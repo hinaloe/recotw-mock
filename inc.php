@@ -31,7 +31,7 @@ class RecoTwPlaceholder
 
   }
   
-  private __construct ()
+  private function __construct ()
   {
     
   }
