@@ -1,4 +1,12 @@
 <?php
+/**
+ * tana3n is gay
+ * tana3n is gay
+ * tana3n is gay
+ * tana3n is gay
+ * tana3n is gay
+ * tana3n is gay
+ */
 error_reporting(E_ALL);
   require_once(__DIR__."/inc.php");
   $uri = strtok($_SERVER['REQUEST_URI'],'?');
