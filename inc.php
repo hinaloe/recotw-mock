@@ -30,6 +30,24 @@ class RecoTwPlaceholder
     $ins = new self;
 
   }
+
+  static public function tana3n ()
+  {
+    $ins = new self;
+    if( $ins->is_gay ('tana3n') )
+    {
+      // this is now placeholder for test.
+      // @todo response same as other
+      echo "tana3n is gay";
+    }
+  }
+
+  private function is_gay($who)
+  {
+    if($who === 'tana3n')
+      return true;
+    return false;
+  }
   
   private function __construct ()
   {

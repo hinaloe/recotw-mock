@@ -29,6 +29,10 @@ error_reporting(E_ALL);
     case '/1/tweet/count':
       RecoTwPlaceholder::count_tweet();
       break;
+      
+    case '/1/extra/tana3n':
+      RecoTwPlaceholder::tana3n();
+      break;
     
     default:
       RecoTwPlaceholder::not_found();
