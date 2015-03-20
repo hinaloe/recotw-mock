@@ -67,6 +67,10 @@ class RecoTwPlaceholder
       $ins-> remove_header("wont_remove","die");
       $ins-> remove_header("will_remove","die");
 
+      // method chain
+      $ins-> add_header("age","17")
+        -> add_header("smile","yes")
+        -> remove_header("age");
 
       // when, send multi samename header
       $ins-> add_header("tana3n",["gay","tana3n"]);
