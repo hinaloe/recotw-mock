@@ -83,6 +83,7 @@ class RecoTwPlaceholder
   private function add_header($key, $value)
   {
     $this->headers[$key] = $value;
+    return $this;
   }
 
   private function send_headers($header = null, $replace = true)
@@ -107,6 +108,7 @@ class RecoTwPlaceholder
         }
       }
     }
+    return $this;
   }
 
   private function remove_header($key,$value = null)
@@ -129,6 +131,7 @@ class RecoTwPlaceholder
         }
       }
     }
+    return $this;
   }
 
 
