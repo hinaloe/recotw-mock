@@ -77,10 +77,19 @@ class RecoTwPlaceholder
 
       // when, send multi samename header
       $ins-> add_header("tana3n",["gay","tana3n"]);
-      $ins-> send_headers();
+
+      $body = array(
+        'type'=>'json',
+        'body'=> array(
+          'content' => 'tana3n is gay'
+        )
+      );
+
+      $ins-> send($body);
+      // $ins-> send_headers();
       // this is now placeholder for test.
       // @todo response same as other
-      echo "tana3n is gay";
+      // echo "tana3n is gay";
     }
   }
 
@@ -182,9 +191,9 @@ class RecoTwPlaceholder
 
   }
 
-  private function render_json ()
+  private function render_json ($data)
   {
-
+    echo json_encode($data);
   }
 
 
