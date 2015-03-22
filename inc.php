@@ -5,6 +5,7 @@ class RecoTwPlaceholder
 
   private $headers = [];
   private $body;
+  private $response_code;
 
   static public function get_tweet_all ()
   {
@@ -43,6 +44,8 @@ class RecoTwPlaceholder
   static public function not_found ()
   {
     $ins = new self;
+    $ins -> set_response_code(404);
+    $ins -> send(array('type'=>'html'));
     echo "404 Not found";
 
   }
@@ -95,6 +98,10 @@ class RecoTwPlaceholder
     if(is_null($header))
     {
       $header = $this->headers;
+      if(is_int($this-> response_code))
+      {
+        http_response_code ($this-> response_code);
+      }
     }
     if(!is_array($header))
       return;
@@ -138,6 +145,47 @@ class RecoTwPlaceholder
     return $this;
   }
 
+  private function set_response_code ( $code )
+  {
+    if (!is_int($code))
+    {
+      throw new InvalidArgumentException ("Invalid response code");
+    }
+    $this-> response_code = $code;
+    return $this;
+  }
+
+
+  private function send ($options)
+  {
+
+    if($options["type"] === 'json' )
+    {
+      $this-> add_header("Content-Type","application/json; charset=UTF-8");
+      $this-> send_headers();
+      $this-> render_json($options["body"]);
+    }
+    else if($options["type"] === 'html')
+    {
+      $this-> add_header("Content-Type","text/html; charset=UTF-8");
+      $this-> send_headers();
+      $this-> render_html($options);
+
+    }
+
+
+  }
+
+
+  private function render_html ()
+  {
+
+  }
+
+  private function render_json ()
+  {
+
+  }
 
 
 
