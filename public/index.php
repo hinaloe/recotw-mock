@@ -13,7 +13,7 @@ error_reporting(E_ALL);
 define('TANA3NISGAY',dirname(__FILE__).'/');
 
 
-  require_once(__DIR__."/inc.php");
+  require_once(TANA3NISGAY."/../inc.php");
   $uri = strtok($_SERVER['REQUEST_URI'],'?');
 
 

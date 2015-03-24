@@ -6,6 +6,8 @@ if(!defined('TANA3NISGAY'))
   echo 'Forbidden';
 }
 
+require_once(dirname(__FILE__) . '/db.php');
+
 
 class RecoTwPlaceholder
 {
