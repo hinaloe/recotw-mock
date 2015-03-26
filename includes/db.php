@@ -20,7 +20,7 @@ class RecoTwEntritesModel
 
     $this-> db = new SQLite3( $db_path );
     // migrate
-    $this-> exec ( sprintf ( 'CREATE TABLE IF NOT EXISTS %s (id INTEGER PRIMARY KEY,tweet_id TEXT,content TEXT,target_id TEXT,target_sn TEXT,record_date TEXT)' , $this->name ) );
+    $this-> exec ( sprintf ( 'CREATE TABLE IF NOT EXISTS %s (id INTEGER PRIMARY KEY AUTOINCREMENT,tweet_id TEXT,content TEXT,target_id TEXT,target_sn TEXT,record_user TEXT,record_date TIMESTAMP DEFAULT (DATETIME(\'now\',\'localtime\')))' , $this->name ) );
   }
 
   function close ()
@@ -31,10 +31,17 @@ class RecoTwEntritesModel
   private function query_user_tweet ($screen_name)
   {
     $sql = sprintf( 'SELECT * FROM %s where target_sn = :name' ,$this->name);
+    $i = 0;
+    $res = [];
     $stmt = $this->db-> prepare($sql);
     $stmt-> bindValue(':name',$screen_name);
     $result = $stmt -> execute();
-    return $result->fetchArray();
+    while($row = $result->fetchArray())
+    {
+      $res[$i] = $row;
+      $i++;
+    }
+    return $res;
   }
 
   private function query_tweet_count ()
@@ -42,7 +49,32 @@ class RecoTwEntritesModel
     $sql = sprintf( 'SELECT COUNT (*) from %s' , $this->name );
     $stmt = $this->db -> prepare($sql);
     $result = $stmt-> execute();
-    return $result->fetchArray(SQLITE3_ASSOC)['COUNT (*)'];
+
+    return $result->fetchArray(SQLITE3_NUM)[0];
+
+  }
+
+  private function query_insert_content ( $content, $tweet_id, $target_id, $target_sn, $record_user )
+  {
+    $sql = sprintf( 'INSERT INTO %s (content,tweet_id,target_id,target_sn,record_user) VALUES (:content,:tweet_id,:target_id,:twrget_sn,:record_user)' , $this->name );
+    $stmt = $this->db-> prepare($sql);
+    $stmt-> bindValue(':content', $content);
+    $stmt-> bindValue(':tweet_id', $tweet_id);
+    $stmt-> bindValue(':target_id', $target_id);
+    $stmt-> bindValue(':target_sn', $target_sn);
+    $stmt-> bindValue(':record_user', $record_user);
+
+    $stmt-> execute ();
+  }
+
+  private function query_search_by_tweet_id ($tweet_id)
+  {
+    $sql = sprintf( 'SELECT * FROM %s where tweet_id = :tweet_id' );
+    $stmt = $this->db-> prepare($sql);
+    $stmt-> bindValue(':tweet_id', $tweet_id);
+
+    $stmt-> execute ();
+    return $result->fetchArray();
 
   }
 }
