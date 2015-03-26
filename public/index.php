@@ -13,7 +13,8 @@ error_reporting(E_ALL);
 define('TANA3NISGAY',dirname(__FILE__).'/');
 
 
-  require_once(TANA3NISGAY."/../inc.php");
+  require_once(TANA3NISGAY."/../config.php");
+  require_once(TANA3NISGAY."/../includes/inc.php");
   $uri = strtok($_SERVER['REQUEST_URI'],'?');
 
 
