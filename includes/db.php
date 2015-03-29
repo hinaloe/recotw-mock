@@ -44,6 +44,22 @@ class RecoTwEntritesModel
     return $res;
   }
 
+  private function query_all_tweet ()
+  {
+    $sql = sprintf( 'SELECT * FROM %s ' ,$this->name);
+    $i = 0;
+    $res = [];
+    $stmt = $this->db-> prepare($sql);
+    $result = $stmt -> execute();
+    while($row = $result->fetchArray())
+    {
+      $res[$i] = $row;
+      $i++;
+    }
+    return $res;
+  }
+
+
   private function query_tweet_count ()
   {
     $sql = sprintf( 'SELECT COUNT (*) from %s' , $this->name );
@@ -69,12 +85,25 @@ class RecoTwEntritesModel
 
   private function query_search_by_tweet_id ($tweet_id)
   {
-    $sql = sprintf( 'SELECT * FROM %s where tweet_id = :tweet_id' );
+    $sql = sprintf( 'SELECT * FROM %s where tweet_id = :tweet_id' ,$this->name );
     $stmt = $this->db-> prepare($sql);
     $stmt-> bindValue(':tweet_id', $tweet_id);
 
     $stmt-> execute ();
     return $result->fetchArray();
 
+  }
+
+  private function query_delete_by_id ($id)
+  {
+    if(filter_var($id,FILTER_VALIDATE_INT) === false)
+    {
+      throw new InvalidArgumentException('the ID is not int.');
+    }
+    $sql = printf ( 'DELETE FROM %s where id = :id' , $this->name);
+    $stmt = $this->db-> prepare($sql);
+    $stmt-> bindValue (':id', $id, SQLITE3_INTEGER);
+    $stmt-> execute();
+    return;
   }
 }
