@@ -8,6 +8,7 @@
  * tana3n is gay
  * tana3n is gay
  */
+
 error_reporting(E_ALL);
 
 define('TANA3NISGAY',dirname(__FILE__).'/');
@@ -18,7 +19,8 @@ define('TANA3NISGAY',dirname(__FILE__).'/');
   $uri = strtok($_SERVER['REQUEST_URI'],'?');
 
 
-  switch ($uri) {
+  switch ($uri)
+  {
     case '/1/tweet/get_tweet_all':
       RecoTwPlaceholder::get_tweet_all();
       break;
