@@ -31,32 +31,18 @@ class RecoTwEntritesModel
   private function query_user_tweet ($screen_name)
   {
     $sql = sprintf( 'SELECT * FROM %s where target_sn = :name' ,$this->name);
-    $i = 0;
-    $res = [];
     $stmt = $this->db-> prepare($sql);
     $stmt-> bindValue(':name',$screen_name);
     $result = $stmt -> execute();
-    while($row = $result->fetchArray())
-    {
-      $res[$i] = $row;
-      $i++;
-    }
-    return $res;
+    return self::fetchArrayList($result);
   }
 
   private function query_all_tweet ()
   {
-    $sql = sprintf( 'SELECT * FROM %s ' ,$this->name);
-    $i = 0;
-    $res = [];
+    $sql = sprintf( 'SELECT * FROM %s' ,$this->name);
     $stmt = $this->db-> prepare($sql);
     $result = $stmt -> execute();
-    while($row = $result->fetchArray())
-    {
-      $res[$i] = $row;
-      $i++;
-    }
-    return $res;
+    return self::fetchArrayList($result);
   }
 
 
@@ -105,5 +91,18 @@ class RecoTwEntritesModel
     $stmt-> bindValue (':id', $id, SQLITE3_INTEGER);
     $stmt-> execute();
     return;
+  }
+
+  private static function fetchArrayList (SQLite3Result $result)
+  {
+    $i = 0;
+    $res = [];
+    while ($row = $result->ffetchArray())
+    {
+      $res[$i] = $row;
+      $i++;
+    }
+    return $res;
+
   }
 }
